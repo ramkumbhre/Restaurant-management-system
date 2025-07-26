@@ -25,8 +25,8 @@ public class AuthServiceImplementation implements AuthService {
     public void createAdminAccount(){
         List<User> adminAccount = userRepository.findByUserRole(UserRole.ADMIN); // ✅ bean usage
 
-//        if(adminAccount.isEmpty()){
-        if(!userRepository.findFirstByEmail("admin@gmail.com").isPresent()){
+        if(adminAccount.isEmpty()){
+//        if(!userRepository.findFirstByEmail("admin@gmail.com").isPresent()){
             User user =new User();
             user.setName("admin");
             user.setEmail("admin@gmail.com");

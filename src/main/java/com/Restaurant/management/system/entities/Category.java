@@ -1,5 +1,6 @@
 package com.Restaurant.management.system.entities;
 
+import com.Restaurant.management.system.dtos.CategoryDto;
 import jakarta.persistence.*;
 import lombok.Data;
 
@@ -22,4 +23,13 @@ public class Category {
     @Column(columnDefinition = "longblob")
     private byte[] img;
 
+
+    public CategoryDto getCategoryDto(){
+        CategoryDto categoryDto = new CategoryDto();
+        categoryDto.setId(id);
+        categoryDto.setName(name);
+        categoryDto.setDescription(description);
+        categoryDto.setReturnedImg(img);
+        return categoryDto;
+    }
 }
