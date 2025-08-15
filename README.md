@@ -86,6 +86,7 @@ Returns a list of all registered users.
     "email": "ramkumbhre@gmail.com"
   }
 ]
+```
 
 
 👤 Author
