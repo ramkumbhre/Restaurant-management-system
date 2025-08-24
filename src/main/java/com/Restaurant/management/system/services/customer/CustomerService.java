@@ -2,6 +2,7 @@ package com.Restaurant.management.system.services.customer;
 
 import com.Restaurant.management.system.dtos.CategoryDto;
 import com.Restaurant.management.system.dtos.ProductDto;
+import com.Restaurant.management.system.dtos.ReservationDto;
 
 import java.util.List;
 
@@ -14,4 +15,8 @@ public interface CustomerService {
     List<ProductDto> getProductsByCategory(Long categoryId);
 
     List<ProductDto> getProductsByCategoryAndTitle(Long categoryId, String title);
+
+    ReservationDto postReservation(ReservationDto reservationDto);
+
+    List<ReservationDto> getReservationsByUser(Long customerId);
 }

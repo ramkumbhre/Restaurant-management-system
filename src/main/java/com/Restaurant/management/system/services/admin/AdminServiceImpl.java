@@ -2,16 +2,21 @@ package com.Restaurant.management.system.services.admin;
 
 import com.Restaurant.management.system.dtos.CategoryDto;
 import com.Restaurant.management.system.dtos.ProductDto;
+import com.Restaurant.management.system.dtos.ReservationDto;
 import com.Restaurant.management.system.entities.Category;
 import com.Restaurant.management.system.entities.Product;
+import com.Restaurant.management.system.entities.Reservation;
+import com.Restaurant.management.system.enums.ReservationStatus;
 import com.Restaurant.management.system.repositories.CategoryRepository;
 import com.Restaurant.management.system.repositories.ProductRepository;
+import com.Restaurant.management.system.repositories.ReservationRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Service;
 
 import java.io.IOException;
 import java.util.List;
+import java.util.Objects;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
@@ -22,6 +27,8 @@ public class AdminServiceImpl implements AdminService{
     private final CategoryRepository categoryRepository;
 
     private final ProductRepository productRepository;
+
+    private final ReservationRepository reservationRepository;
 
 
     @Override
@@ -112,6 +119,29 @@ public class AdminServiceImpl implements AdminService{
             ProductDto updatedProductDto = new ProductDto();
             updatedProductDto.setId(updatedProduct.getId());
             return updatedProductDto;
+        }
+        return null;
+    }
+
+    @Override
+    public List<ReservationDto> getReservations() {
+        return reservationRepository.findAll().stream().map(Reservation::getReservationDto).collect(Collectors.toList());
+    }
+
+    @Override
+    public ReservationDto changeReservationStatus(Long reservationsId, String status) {
+        Optional<Reservation> optionalReservation = reservationRepository.findById(reservationsId);
+        if(optionalReservation.isPresent()){
+            Reservation existingReservation = optionalReservation.get();
+            if(Objects.equals(status, "Approve")){
+                existingReservation.setReservationStatus(ReservationStatus.APPROVED);
+            }else {
+                existingReservation.setReservationStatus(ReservationStatus.DISAPPROVE);
+            }
+            Reservation updatedReservation = reservationRepository.save(existingReservation);
+            ReservationDto updatedReservationDto = new ReservationDto();
+            updatedReservationDto.setId(updatedReservation.getId());
+            return updatedReservationDto;
         }
         return null;
     }

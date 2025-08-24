@@ -2,6 +2,7 @@ package com.Restaurant.management.system.controllers;
 
 import com.Restaurant.management.system.dtos.CategoryDto;
 import com.Restaurant.management.system.dtos.ProductDto;
+import com.Restaurant.management.system.dtos.ReservationDto;
 import com.Restaurant.management.system.services.admin.AdminService;
 
 import lombok.RequiredArgsConstructor;
@@ -82,5 +83,19 @@ public class AdminController {
         if(createdProductDto == null)
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Something went wrong");
         return ResponseEntity.status(HttpStatus.OK).body(createdProductDto);
+    }
+
+    @GetMapping("/reservations")
+    public ResponseEntity<List<ReservationDto>> getReservations(){
+        List<ReservationDto> reservationDtoList = adminService.getReservations();
+        if(reservationDtoList == null) return ResponseEntity.notFound().build();
+        return ResponseEntity.ok(reservationDtoList);
+    }
+
+    @GetMapping("/reservation/{reservationsId}/{status}")
+    public ResponseEntity<ReservationDto> changeReservationStatus(@PathVariable Long reservationsId, @PathVariable String status){
+        ReservationDto updatedReservationDto = adminService.changeReservationStatus(reservationsId, status);
+        if(updatedReservationDto == null) return ResponseEntity.notFound().build();
+        return ResponseEntity.ok(updatedReservationDto);
     }
 }
